@@ -102,7 +102,7 @@ class LinearProgrammingProblem:
             print('Free variables: ', self.free)
             return None, None
         descision_column = self.simplex_matrix[:-1, j_0]
-        if functools.reduce(operator.and_, less_zero <= 0, True):
+        if functools.reduce(operator.and_, descision_column <= 0, True):
             raise ValueError('Function is unlimited!')
             
         k = j_0
