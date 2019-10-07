@@ -1,3 +1,4 @@
+import numpy as np
 class LPPSolver:
     def __init__(self, problem, verbose=True):
         self.problem = problem
@@ -12,7 +13,16 @@ class LPPSolver:
         if self.problem.alternative:
             return -self.problem.target_function(target_vector, basis_names)
         return self.problem.target_function(target_vector, basis_names)
-
+    
+    def get_optimal_vector(self):
+        basis_inices = np.where(self.problem.basis <= self.problem.c.shape[0])[0]
+        if len(basis_inices) == 0:
+            return 0
+        basis_names = self.problem.basis[basis_inices] - 1      
+        target_vector = np.zeros(self.problem.c.shape[0])
+        target_vector[basis_names] = self.problem.simplex_matrix[basis_inices, 0]
+        return target_vector
+    
     def step_1(self):
         iteration = 1
         print('Searching available solution...')
